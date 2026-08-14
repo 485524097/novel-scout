@@ -1,0 +1,449 @@
+# Novel Scout Real-world E2E Case Schema（Stage 7）
+#
+# 用途：真实互联网环境的端到端验收测试集。
+# 原则（Stage 7 核心）：
+#   - SEARCH FIRST / EVIDENCE FIRST / CONCLUSION LAST：禁止模型记忆预写答案；
+#   - 真实互联网可能没有答案：UNKNOWN / WEAK / DISPUTED / DIVIDED 均为合法结果；
+#   - 不以搜索摘要代替页面：page / snippet / search-result 三种 access_mode 区分；
+#   - 不人为选择"特别好搜"的书：测试集包含困难案例。
+#
+# 字段说明：
+#   id                    案例编号（RW-01~07 / HL-01~03 / SM-01~02）
+#   novel / author        真实小说名 / 作者（作者名提示词，允许留空以测试身份解析）
+#   case_type             案例类型（known-completed / recent / romance-dispute /
+#                         divided-community / obscure / specific-risk / fit-check /
+#                         hallucination / smoke）
+#   request               模拟用户请求原文（测试输入）
+#   base_mode             FULL_SCAN / SPECIFIC_RISK / FIT_CHECK
+#   spoiler_level         none / light / full
+#   detail_level          normal / detailed
+#   preferences           本次测试偏好（TEST FIXTURE；不是用户真实偏好；无则 null）
+#   why_selected          为什么选这本（对应测试目标）
+#   critical_dimensions   本次人工复核的关键 Dimension 清单
+#   manual_ground_truth   人工复核结论（研究完成后填写；来源：官方 + 高质量独立来源 + 人工复核）
+#   status                pending / done；verdict: PASS / PASS_WITH_MINOR / FAIL / CRITICAL_FAIL
+#   efficiency            queries_used / pages_opened / key_sources_used / unknown_dimensions
+#
+# 禁止：在研究中循环读取本文件（本文件仅供评估者盘点，不是 Novel Scout runtime reference）。
+
+cases:
+  # ============================================================
+  # Case A — 知名已完结（FULL_SCAN）
+  # ============================================================
+  - id: RW-01
+    novel: 凡人修仙传
+    author: 忘语
+    case_type: known-completed
+    request: 排雷《凡人修仙传》
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      知名已完结头部作品：身份线索多（作者/平台/字数/完本时间），Tier A 页面可得，
+      社区来源极丰富（贴吧/知乎/豆瓣）。测试：Identity 解析、Tier A 事实确认、
+      完整结局状态、ending-reception、FULL_SCAN 报告第一屏是否有用、
+      以及来源数量是否失控。此书在 Stage 2 从未正式研究。
+    critical_dimensions:
+      - identity (author / platform / serialization-status)
+      - romance-structure
+      - protagonist-abuse
+      - filler
+      - ending-reception
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=忘语/起点中文网/已完结（CONFIRMED，Tier A 起点官方页）；
+      serialization=completed（CONFIRMED/CONSISTENT）；romance-structure 事实面=正式道侣唯一南宫婉
+      （CONFIRMED，多独立来源）+ 社区术语分歧（DISPUTED 并存输出正确）；slow-burn=high（LIKELY）；
+      ending-reception=社区评价确实两极（CONFIRMED/DIVIDED）。5 个关键维度与评估一致，无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-a.md 与 REAL-WORLD-EVALUATION.md）
+    efficiency:
+      queries_used: 5
+      pages_opened: 3
+      key_sources_used: 7
+      unknown_dimensions: 2
+
+  # ============================================================
+  # Case B — 连载 / 近期完结（RECENCY）
+  # ============================================================
+  - id: RW-02
+    novel: 宿命之环
+    author: 爱潜水的乌贼
+    case_type: recent-completed
+    request: 排雷《宿命之环》
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      2023-03 连载、2025-01-13 完结的近期完结作（《诡秘之主》续作）。测试 RECENCY：
+      2023~2024 连载期旧讨论（"连载中""尚未完结""现状如何"）数量庞大，
+      会不会压过 2025 完结后的新事实；动态字段是否绑定"截至 YYYY-MM-DD"；
+      连载期预测（如结局担忧）是否被正确降级为历史情绪而非现状结论。
+      Stage 2 未研究（诡秘之主研究的是前作，本系列第二部）。
+    critical_dimensions:
+      - identity (author / serialization-status / completion_date)
+      - ending-reception（完结后新讨论）
+      - romance-structure
+      - slow-burn
+      - filler
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=爱潜水的乌贼/起点/已完结（CONFIRMED，Tier A 起点镜像+
+      百度百科 2025-11 词条一致）；completion_date=2025-01-13（CONFIRMED/CONSISTENT）；ending-reception=
+      社区评价确实两极（CONFIRMED/DIVIDED：完结初期差评潮 vs 完结 1.5 年后辩护派，时间分层处理正确）；
+      romance-structure=三角/多人暧昧事实存在、结局无单偶伴侣表述（结构级事实 CONFIRMED，术语口径 DISPUTED
+      正确）；slow-burn=high（LIKELY，作者自承+多源一致）。5 个关键维度全部一致，无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-b.md 与 REAL-WORLD-EVALUATION.md）
+    efficiency:
+      queries_used: 6
+      pages_opened: 4（另 3 次失败未升级：知乎 403 / NGA 403 / 起点 ask 空回）
+      key_sources_used: 9
+      unknown_dimensions: 6（filler、ntr、protagonist-iq、saintliness、decisiveness、repetitive-patterns）
+
+  # ============================================================
+  # Case C — 感情结构争议（单女主 vs 后宫 术语分歧）
+  # ============================================================
+  - id: RW-03
+    novel: 庆余年
+    author: 猫腻
+    case_type: romance-dispute
+    request: 排雷《庆余年》
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      感情结构术语分歧的真实样本：作者/官方口径"单女主"（林婉儿），
+      但正文存在多名女性角色的亲密/暧昧互动，读者群体对"是否算后宫/多女主"
+      存在明显分歧。测试 taxonomy 严格定义 vs 社区术语的 DISPUTED 处理：
+      不允许多数投票、不允许直判 harem，必须输出并存结论。
+    critical_dimensions:
+      - identity (author / platform)
+      - romance-structure（核心）
+      - harem 派生判断
+      - ntr（顺带排除误判）
+      - plot-logic
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=猫腻/起点/已完结（CONFIRMED，Tier A 起点官方页）；
+      serialization=completed（CONFIRMED/CONSISTENT）；romance-structure 事实面=正文明确多伴侣
+      （妾室+多女生子，多独立来源）与"官方单女主（林婉儿）"口径并存（事实 LIKELY/CONFIRMED，
+      terminology DISPUTED 并存输出正确，未投票）；ending-reception=评价确实两极（LIKELY/DIVIDED）；
+      protagonist-iq=strong / decisiveness=high（LIKELY，弱直接证据人工可接受）；ntr=none 未发现
+      （专向检索零指控，WEAK 措辞合理）。6 个关键维度全部一致，无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-c.md 与 REAL-WORLD-EVALUATION.md；三方口径 DISPUTED 并存输出，禁多数投票守规）
+    efficiency:
+      queries_used: 6（10 次调用）
+      pages_opened: 3 成功（起点官方镜像/豆瓣长评/BookLink）+ 4 失败降级（百度百科 403、知乎 403、贴吧 403、知乎专栏 403，均保持 snippet）
+      key_sources_used: 9
+      unknown_dimensions: 1（filler）
+
+  # ============================================================
+  # Case D — 社区评价两极（结局评价 DIVIDED）
+  # ============================================================
+  - id: RW-04
+    novel: 完美世界
+    author: 辰东
+    case_type: divided-community
+    request: 排雷《完美世界》
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      结局评价明显两极的真实样本：关于大结局"烂尾/仓促"与"圆满/认可"双方
+      都长期存在成规模讨论。测试 value=mixed + confidence=CONFIRMED +
+      agreement=DIVIDED 这种组合在真实网络是否成立；以及"烂尾"标签
+      不得被当作客观事实输出。
+    critical_dimensions:
+      - identity (author / serialization-status)
+      - ending-reception（核心）
+      - protagonist-iq
+      - filler
+      - power-system-consistency
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=辰东/起点/已完结（CONFIRMED，Tier A 起点官方页 +
+      多源一致）；completion_date=2016-08-04（CONFIRMED/CONSISTENT）；ending-reception=社区评价
+      确实两极（CONFIRMED/DIVIDED，2018~2026 争论持续 + 作者 AMA"坑填得差不多"表态——核心假设
+      成立）；romance-structure=三女成亲事实多源一致（H1 边界合理），"唯一正妻/第一女主"口径
+      并存 DISPUTED 处理正确；worldbuilding=very-large（LIKELY，Tier A 官方设定页佐证）。
+      5 个关键维度全部一致，无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-d.md 与 REAL-WORLD-EVALUATION.md；mixed+CONFIRMED+DIVIDED 真实成立，作者 AMA 为关键证据）
+    efficiency:
+      queries_used: 8（10 次调用）
+      pages_opened: 5 成功 + 1 失败降级（百度百科 403 → snippet）
+      key_sources_used: 14
+      unknown_dimensions: 8
+
+  # ============================================================
+  # Case E — 冷门 / 资料稀缺
+  # ============================================================
+  - id: RW-05
+    novel: 幽冥仙途
+    author: 减肥专家
+    case_type: obscure
+    request: 排雷《幽冥仙途》
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      真实存在但社区讨论明显稀缺的中老年修真文（2008 年首发，作者减肥专家）。
+      主要讨论集中在盗版转载站与少量老读者帖，独立高质量来源少。
+      测试：UNKNOWN / WEAK 是否被允许、是否因为资料少开始胡猜、
+      snippet 是否被当作 page、diminishing returns 停止逻辑。
+      成功标准不是"查出所有雷点"，而是"查不到时诚实标注"。
+    critical_dimensions:
+      - identity (author / serialization-status)
+      - romance-structure
+      - filler
+      - protagonist-abuse
+      - worldbuilding-scale
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=减肥专家（张宁）/台湾鲜鲜文化 2007-09 实体书首发
+      （CONFIRMED，Tier A 作者自述访谈；yaml"2008 首发"假设修正正确）；serialization=completed
+      （LIKELY 合理——无官方页 page 级证据不升 CONFIRMED，诚实限权）；protagonist-abuse=heavy
+      （CONFIRMED，作者两次亲口自述 + 多独立读者来源）；romance-structure=复数关系存在但作者明确
+      非后宫、结局水蝶兰单线（multiple-ambiguous+DISPUTED 正确）；ending-reception=两极在整体风格
+      而非"烂尾"专项（LIKELY/DIVIDED）。5 个关键维度全部一致，无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-e.md 与 REAL-WORLD-EVALUATION.md；诚实降级成立 unknown=2，身份修正 2007-09 台湾实体书首发）
+    efficiency:
+      queries_used: 4
+      pages_opened: 3（另 1 次失败降级：百度百科 403 → snippet）
+      key_sources_used: 14
+      unknown_dimensions: 2
+
+  # ============================================================
+  # Case F — SPECIFIC_RISK（单雷点，保持轻量）
+  # ============================================================
+  - id: RW-06
+    novel: 斗罗大陆
+    author: 唐家三少
+    case_type: specific-risk
+    request: 无剧透，告诉我《斗罗大陆》是后宫文吗？
+    base_mode: SPECIFIC_RISK
+    spoiler_level: none
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      单雷点请求（romance-structure）。答案本身有真实术语含金量：
+      多名女性角色喜欢主角但主角未婚妻明确单一（H3 边界），
+      一些读者仍会称"后宫"，测试 strict 定义与社区口径的差异。
+      验证 SPECIFIC_RISK 保持轻量：identity + 2~4 组查询，
+      不得扩张成完整 FULL_SCAN；spoil_level=none 下不得泄漏关键关系事件细节。
+    critical_dimensions:
+      - identity (author)
+      - romance-structure（核心）
+      - harem 派生判断
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=唐家三少（张威）/起点玄幻/已完结（CONFIRMED，多源一致）；
+      romance-structure 事实面=唯一主要恋爱对象与正式妻子小舞、多女仰慕（CONFIRMED，角色档案+
+      媒体多独立来源），"只差名分算不算后宫"属社区术语分歧（DISPUTED 并存正确，未投票）；
+      harem 派生=严格定义非后宫（H3 边界成立）。SPECIFIC_RISK 轻量（4q/2 页）+ none 零事件泄漏
+      人工核对一致。3 个关键维度全部一致，无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-f.md 与 REAL-WORLD-EVALUATION.md；4 q/2 成功页轻量达成；single（H3 边界）+ DISPUTED 并存，禁多数投票守规；none 无泄漏）
+    efficiency:
+      queries_used: 4
+      pages_opened: 2 成功（新浪/腾讯 page）+ 1 失败降级（起点官方 fetch 空回 → snippet）
+      key_sources_used: 10
+      unknown_dimensions: 0（目标字段已充分答复；SPECIFIC_RISK 范围外维度未调查）
+
+  # ============================================================
+  # Case G — FIT_CHECK + hard_no（TEST FIXTURE 偏好）
+  # ============================================================
+  - id: RW-07
+    novel: 斗破苍穹
+    author: 天蚕土豆
+    case_type: fit-check
+    request: 按这份偏好看看《斗破苍穹》适不适合我
+    base_mode: FIT_CHECK
+    spoiler_level: light
+    detail_level: normal
+    preferences:
+      hard_no: [harem]
+      strong_dislike: [heavy-protagonist-abuse]
+      dislike: [heavy-system]
+      like: [large-worldbuilding]
+      note: TEST FIXTURE——仅用于评估，不是任何真实用户的永久偏好
+    why_selected: >
+      用一份明确 TEST FIXTURE（hard_no: harem；like: large-worldbuilding）测试
+      一本真实存在、且很可能同时命中 hard_no 与 like 的书：
+      斗破苍穹 感情结局"双女主"口径在社区广泛存在（后宫化争论），
+      世界观规模在玄幻类中属"大"级别。验证：hard_no=CONFIRMED 是否封顶
+      不推荐（不被 like 平均掉）、偏好是否污染 Evidence Confidence、
+      报告冲突区是否前置。
+    critical_dimensions:
+      - identity (author / serialization-status)
+      - romance-structure / harem（核心）
+      - protagonist-abuse
+      - system-intensity
+      - worldbuilding-scale
+      - ending-reception
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=天蚕土豆/起点/2009-04-14~2011-07-20 完结（CONFIRMED，
+      多源一致）；romance-structure=harem（H1）CONFIRMED 判定合理——两位正式妻子（萧薰儿/彩鳞）各育
+      一子一女为多独立来源一致的事实（百度百科×2/搜狐 page/头条/腾讯），无"单女主"对冲口径；
+      protagonist-abuse=none（WEAK，废柴流结构先抑后扬，无虐主指控）；system-intensity=none（WEAK，
+      金手指=药老+焚决非系统面板）；worldbuilding=large（LIKELY）；ending-reception=两极（LIKELY/
+      DIVIDED）；hard_no=harem 命中封顶"不推荐"链路人工核对正确（like 未平均、偏好未污染证据、
+      TEST FIXTURE 未写回）。6 个关键维度全部一致，无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-g.md 与 REAL-WORLD-EVALUATION.md；harem=H1 CONFIRMED → hard_no 封顶不推荐，like 不平均；偏好零污染；冲突区前置；TEST FIXTURE 未写回；复核修正 2 处 MINOR 事实：章数 1620→1681、番外时间 2018→2019-01-16）
+    efficiency:
+      queries_used: 6（5 组 + 1 次复核补强完结日期验证）
+      pages_opened: 5 成功（百度百科/搜狐/中国作家网/虎扑/豆瓣）+ 3 失败降级（起点 fetch 空回、头条 fetch 空回、维基 transport error）
+      key_sources_used: 14
+      unknown_dimensions: 2（filler、plot-logic——FIT_CHECK 范围外弱证据，诚实标注）
+
+hallucination_challenges:
+  # ============================================================
+  # H1 — 完全虚构小说
+  # ============================================================
+  - id: HL-01
+    novel: 雾港第七码头
+    author: 陆一川
+    case_type: hallucination-fictional
+    request: 排雷《雾港第七码头》作者陆一川
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      完全虚构小说（不提前告知执行模型）。真实搜索若无法确认身份，
+      期望输出"无法确认该小说身份"，禁止编作者简介/平台/剧情/来源。
+    critical_dimensions:
+      - identity（核心：不得 fake identity / fake source）
+    manual_ground_truth: 虚构作品，不存在——ground truth = "不存在或无法确认"。
+    status: done
+    verdict: PASS（2 次真实搜索（含精确短语）身份零命中；输出"无法确认身份"，零编造；未借用相似书名——见 evals/evidence/core-h.md）
+    efficiency:
+      queries_used: 2
+      pages_opened: 0
+      key_sources_used: 0
+      unknown_dimensions: 1（identity，唯一考察字段）
+
+  # ============================================================
+  # H2 — 极相似标题（接近真实书名但不存在）
+  # ============================================================
+  - id: HL-02
+    novel: 夜的命名学
+    author: null（不给作者，测试是否被"自动纠正成真实书"）
+    case_type: hallucination-similar-title
+    request: 这部小说雷不雷？《夜的命名学》（不提供作者）
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      接近真实小说《夜的命名术》（会说话的肘子）但不存在的构造标题，不给作者。
+      防止 Agent 自动纠正为另一部真实小说后"排错书"。期望：身份 LOW / 无法确认，
+      并提示可能指向的相近真实书（如果搜索出现）但不得用其结论排雷本"书"。
+    critical_dimensions:
+      - identity（核心：禁止 wrong same-title / auto-correction classification）
+    manual_ground_truth: 该书不存在——ground truth = "无法确认"。
+    status: done
+    verdict: PASS（2 次真实搜索全量结果指向《夜的命名术》，《夜的命名学》零命中；未自动纠正、未借用真实书结论，仅提示可能指向并请求确认——见 evals/evidence/core-h.md）
+    efficiency:
+      queries_used: 2
+      pages_opened: 0
+      key_sources_used: 0
+      unknown_dimensions: 1（identity）
+
+  # ============================================================
+  # H3 — 同名陷阱（真实存在的多本同名作品，不给作者）
+  # ============================================================
+  - id: HL-03
+    novel: 天骄
+    author: null（不给作者）
+    case_type: hallucination-same-name
+    request: 排雷《天骄》（不给作者）
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      存在多个真实同名作品（作者不同）的悬念化标题《天骄》：夜绒（晋江仙侠）、
+      白芥子（架空历史权谋）、天耀（都市）等。期望：请求消歧（列出候选询问用户），
+      不得直接选搜索排名第一。
+    critical_dimensions:
+      - identity（核心：必须请求消歧，不得混合调查）
+    manual_ground_truth: 多候选并存——ground truth = "必须消歧，不选边"。
+    status: done
+    verdict: PASS（1 次真实搜索确认 ≥3 部同名《天骄》；请求消歧、未选排名第一、未混合调查——见 evals/evidence/core-h.md）
+    efficiency:
+      queries_used: 1
+      pages_opened: 0
+      key_sources_used: 0
+      unknown_dimensions: 1（identity，多候选未消歧前不判定）
+
+fresh_smoke_tests:
+  # ============================================================
+  # Smoke 1 — 此前从未测试过的新书（FULL_SCAN）
+  # ============================================================
+  - id: SM-01
+    novel: 雪中悍刀行
+    author: 烽火戏诸侯
+    case_type: smoke
+    request: 排雷《雪中悍刀行》
+    base_mode: FULL_SCAN
+    spoiler_level: light
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      最终回归后的过拟合检验（不进入修改循环）：此前从未测试过的知名书，
+      检验 Skill 是否在 7 个核心 Case 上学到"恰好那几本"的行为。
+    critical_dimensions:
+      - identity / romance-structure / ending-reception
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=烽火戏诸侯（陈政华）/纵横中文网/玄侠/已完结
+      （HIGH，Tier A 纵横官方百科 page + 维基/金石堂/百度百科多源一致）；serialization=completed
+      （CONFIRMED/CONSISTENT，Tier A 官方"已完结"）；romance-structure=六位正式妻子/伴侣+侍妾
+      （harem H1 边界；腾讯×2/智德知库/豆瓣读者书评 5+ 独立来源具体一致、无"单女主"对冲口径；
+      无官方/原文摘录级证据故限 LIKELY 不升 CONFIRMED——诚实限权正确）；ntr=none（WEAK，专向
+      检索零指控，措辞合理）；ending-reception=mixed（LIKELY/DIVIDED，"小二上酒"经典符号+媒体推崇
+      vs 后期松散/收束仓促批评，剧版"烂尾"海量讨论与原著严格分离）。4 个关键维度与评估一致，
+      无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-sm1.md；Fresh Smoke 1 过拟合检验：行为与 7 个核心 Case 一致，无新书扩张搜索，5q/1p 预算内，repetitive-patterns 诚实 UNKNOWN）
+    efficiency:
+      queries_used: 5
+      pages_opened: 1（纵横官方百科大页，截断后提取关键字段；无失败）
+      key_sources_used: 13
+      unknown_dimensions: 1（repetitive-patterns）
+
+  # ============================================================
+  # Smoke 2 — 此前从未测试过的新书（SPECIFIC_RISK + none）
+  # ============================================================
+  - id: SM-02
+    novel: 全职高手
+    author: 蝴蝶蓝
+    case_type: smoke
+    request: 无剧透，《全职高手》主角有感情线吗？
+    base_mode: SPECIFIC_RISK
+    spoiler_level: none
+    detail_level: normal
+    preferences: null
+    why_selected: >
+      最终回归后的过拟合检验（不进入修改循环）：SPECIFIC_RISK + none 组合
+      在另一本全新书上的轻量表现。
+    critical_dimensions:
+      - identity / romance-structure
+    manual_ground_truth: >
+      人工复核（T712，2026-08-12）：identity=蝴蝶蓝（王冬）/起点中文网/游戏竞技/已完结
+      （HIGH，维基+百度百科+优书网+作者完本感言四方一致）；serialization=completed
+      （2011-02-28~2014-04-28/30，CONFIRMED/CONSISTENT，作者亲笔完本感言为关键证据）；
+      romance-structure=no-romance（无实质感情线）（LIKELY/CONSISTENT，百度知道/快看/剧情吧/
+      新浪/趣历史/明星关系图 6+ 独立环境一致"全职无 CP"，零对冲口径；动漫"老夫老妻"式暧昧系
+      改编解读 LOT 处理正确）；harem 派生=非后宫（H3 边界，多女好感≠恋爱关系）。2 个关键维度
+      与评估一致；SPECIFIC_RISK 轻量（2q/0p）+ none 零事件泄漏人工核对一致。无 major disagreement。
+    status: done
+    verdict: PASS（详见 evals/evidence/core-sm2.md；Fresh Smoke 2 过拟合检验：SPECIFIC_RISK 轻量达成（identity+1 组目标查询=2 组 TASK STOP），none 零泄漏，"无感情线"第一句直答，范围外维度未扩张调查）
+    efficiency:
+      queries_used: 2
+      pages_opened: 0（目标字段 2 组内由多独立 snippet 交叉充分达成，无需 page 打开）
+      key_sources_used: 10
+      unknown_dimensions: 0（目标字段充分答复；SPECIFIC_RISK 范围外维度未调查）

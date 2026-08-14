@@ -1,0 +1,413 @@
+# Novel Scout Trigger Cases（Stage 5 触发测试集）
+#
+# expected: TRIGGER / DO_NOT_TRIGGER / CONTEXT_DEPENDENT
+# critical: 违反即视为 critical failure
+# 全部案例使用《示例小说》等占位书名；书名内容与本测试无关。
+# 评估方法（含真实运行时验证状态）见 evals/TRIGGER-EVALUATION.md。
+
+# === 显式 FULL_SCAN 正例（T502）===
+- id: POS-001
+  category: explicit-full-scan
+  prompt: "排雷《示例小说》"
+  context: ""
+  expected: TRIGGER
+  critical: true
+  reason: "用户明确请求小说排雷（最强触发语义）"
+- id: POS-002
+  category: explicit-full-scan
+  prompt: "给《示例小说》排个雷"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "排雷 同义表达"
+- id: POS-003
+  category: explicit-full-scan
+  prompt: "查查《示例小说》的毒点"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "毒点 是最强触发语义之一"
+- id: POS-004
+  category: explicit-full-scan
+  prompt: "详细排雷《示例小说》"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "排雷 + detail_level = detailed"
+- id: POS-005
+  category: explicit-full-scan
+  prompt: "无剧透排雷《示例小说》"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "排雷 + spoiler_level = none"
+- id: POS-006
+  category: explicit-full-scan
+  prompt: "《示例小说》值不值得开？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "值不值得开 = 阅读前风险判断"
+- id: POS-007
+  category: explicit-full-scan
+  prompt: "《示例小说》能看吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "能不能看 = 阅读前风险判断"
+- id: POS-008
+  category: explicit-full-scan
+  prompt: "帮我看看《示例小说》有没有什么容易劝退的地方"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "容易劝退的地方 = 雷点排查"
+
+# === 隐式阅读前判断正例（T503）===
+- id: POS-009
+  category: implicit-pre-read
+  prompt: "我准备看《示例小说》，有什么需要注意的吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "准备阅读 + 风险注意 = before reading 触发"
+- id: POS-010
+  category: implicit-pre-read
+  prompt: "看到很多人推荐《示例小说》，它有没有什么比较恶心人的剧情？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "没出现 排雷/毒点，但明显在问雷点"
+- id: POS-011
+  category: implicit-pre-read
+  prompt: "我打算开《示例小说》，先说说容易踩雷的地方。"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "踩雷 = 阅读前风险检查"
+- id: POS-012
+  category: implicit-pre-read
+  prompt: "《示例小说》我还没看，适不适合入坑？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "入坑前评估"
+- id: POS-013
+  category: implicit-pre-read
+  prompt: "听说《示例小说》争议挺大，开之前有什么需要知道的？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "开之前需要知道 = 风险预判"
+- id: POS-014
+  category: implicit-pre-read
+  prompt: "马上要开始读《示例小说》了，想先了解下它有没有雷点"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "雷点 直出，虽无 排雷 字样"
+- id: POS-015
+  category: implicit-pre-read
+  prompt: "我在纠结要不要看《示例小说》，看完会不会后悔？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "决定是否开始阅读的语境"
+
+# === SPECIFIC_RISK 正例（T504）===
+- id: POS-016
+  category: specific-risk
+  prompt: "《示例小说》后宫吗？"
+  context: ""
+  expected: TRIGGER
+  critical: true
+  reason: "具体雷点直问，无 排雷 字样也必须触发"
+- id: POS-017
+  category: specific-risk
+  prompt: "《示例小说》有 NTR 吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "具体雷点直问"
+- id: POS-018
+  category: specific-risk
+  prompt: "《示例小说》系统味重不重？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "系统强度具体雷点"
+- id: POS-019
+  category: specific-risk
+  prompt: "《示例小说》主角圣母吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "主角行为类雷点"
+- id: POS-020
+  category: specific-risk
+  prompt: "《示例小说》虐主严重吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "虐主具体雷点"
+- id: POS-021
+  category: specific-risk
+  prompt: "《示例小说》是不是特别水？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "水文具体雷点"
+- id: POS-022
+  category: specific-risk
+  prompt: "《示例小说》慢热吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "慢热具体雷点"
+- id: POS-023
+  category: specific-risk
+  prompt: "《示例小说》结局是不是很多人不满意？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "结局评价具体雷点"
+
+# === FIT_CHECK 正例（T505）===
+- id: POS-024
+  category: fit-check
+  prompt: "《示例小说》适不适合我？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "口味适配判断"
+- id: POS-025
+  category: fit-check
+  prompt: "按我的口味看看《示例小说》。"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "按口味 = 个人偏好评估"
+- id: POS-026
+  category: fit-check
+  prompt: "我讨厌后宫和 NTR，《示例小说》能开吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "明确偏好 + 能否开书"
+- id: POS-027
+  category: fit-check
+  prompt: "我喜欢大世界观，但是不喜欢重系统，《示例小说》适合吗？"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "偏好表达 + 适合性判断"
+- id: POS-028
+  category: fit-check
+  prompt: "按照我之前配的小说偏好检查一下《示例小说》。"
+  context: ""
+  expected: TRIGGER
+  critical: false
+  reason: "明确指向偏好配置评估"
+
+# === 上下文 / 模糊案例（T506）===
+- id: CTX-001
+  category: ambiguous-context
+  prompt: "《示例小说》怎么样？"
+  context: "用户上一句说：最近书荒，看到这本准备开。"
+  expected: TRIGGER
+  critical: true
+  reason: "上下文表明用户是在决定是否开始阅读"
+- id: CTX-002
+  category: ambiguous-context
+  prompt: "《示例小说》怎么样？"
+  context: "用户正在写一篇关于该作品叙事结构的课程论文。"
+  expected: DO_NOT_TRIGGER
+  critical: true
+  reason: "属于文学分析上下文"
+- id: CTX-003
+  category: ambiguous-context
+  prompt: "《示例小说》怎么样？"
+  context: ""
+  expected: CONTEXT_DEPENDENT
+  critical: false
+  reason: "无上下文不硬触发也不硬拒绝，可追问或按语境判定"
+- id: CTX-004
+  category: ambiguous-context
+  prompt: "你知道《示例小说》吗？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "知识询问，不是阅读风险检查"
+- id: CTX-005
+  category: ambiguous-context
+  prompt: "《示例小说》好看吗？"
+  context: "用户正在书荒找书，考虑要不要开。"
+  expected: TRIGGER
+  critical: false
+  reason: "明显在考虑开书"
+- id: CTX-006
+  category: ambiguous-context
+  prompt: "《示例小说》好看吗？"
+  context: ""
+  expected: CONTEXT_DEPENDENT
+  critical: false
+  reason: "泛泛聊天与开书决策两可，依赖语境"
+- id: CTX-007
+  category: ambiguous-context
+  prompt: "《示例小说》好看吗？"
+  context: "用户在随便聊天，聊最近读的书。"
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "闲聊语境，不强行进入排雷模式"
+- id: CTX-008
+  category: ambiguous-context
+  prompt: "《示例小说》怎么样？"
+  context: "正在讨论作者的文笔和语言风格。"
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "写作风格讨论，非阅读决策"
+
+# === 创作类负例（T507）===
+- id: NEG-001
+  category: creative-writing-negative
+  prompt: "帮我写一本仙侠小说。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "小说创作，不属于排雷"
+- id: NEG-002
+  category: creative-writing-negative
+  prompt: "帮我续写《示例小说》。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: true
+  reason: "续写属于创作；明确 续写 却触发 = critical failure"
+- id: NEG-003
+  category: creative-writing-negative
+  prompt: "给这个小说设计世界观。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "世界观设计是创作辅助"
+- id: NEG-004
+  category: creative-writing-negative
+  prompt: "润色一下我写的这一章。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "润色属于创作"
+
+# === 文学分析 / 总结负例（T508）===
+- id: NEG-005
+  category: literary-analysis-negative
+  prompt: "分析《示例小说》的主题思想。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: true
+  reason: "文学分析；明确 分析主题 却触发 = critical failure"
+- id: NEG-006
+  category: literary-analysis-negative
+  prompt: "总结一下我贴的这一章。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "正文总结不属于排雷"
+- id: NEG-007
+  category: literary-analysis-negative
+  prompt: "分析《示例小说》的叙事结构。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "叙事结构分析是文学研究"
+- id: NEG-008
+  category: literary-analysis-negative
+  prompt: "给我写一篇《示例小说》的书评。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "用户要写书评 ≠ 排雷（内部会搜书评，但用户请求是写作）"
+
+# === 推荐 / 书单负例（T509）===
+- id: NEG-009
+  category: recommendation-negative
+  prompt: "推荐几本好看的玄幻小说。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: true
+  reason: "V1 不做推荐；明确 推荐小说 却触发 = critical failure"
+- id: NEG-010
+  category: recommendation-negative
+  prompt: "我书荒了，给我找点小说。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "找书推荐不在 V1 范围"
+- id: NEG-011
+  category: recommendation-negative
+  prompt: "有没有类似《示例小说》的书？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "相似推荐 = 推荐能力（V1.1 候选）"
+
+# === 元数据负例（T510，内部使用 ≠ 用户触发能力）===
+- id: NEG-012
+  category: metadata-negative
+  prompt: "《示例小说》的作者是谁？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "Novel Scout 内部会查作者，但单独问作者不是排雷请求"
+- id: NEG-013
+  category: metadata-negative
+  prompt: "《示例小说》什么时候完结的？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "完结日期是元数据查询，非阅读风险请求"
+- id: NEG-014
+  category: metadata-negative
+  prompt: "《示例小说》更新到第几章了？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "查更新状态不是排雷（SKILL Do NOT 已列）"
+
+# === 下载 / 全文负例（T510）===
+- id: NEG-015
+  category: download-update-negative
+  prompt: "哪里能下载《示例小说》？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "下载需求，非排雷"
+- id: NEG-016
+  category: download-update-negative
+  prompt: "给我《示例小说》的全文。"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "正文获取，非排雷"
+- id: NEG-017
+  category: download-update-negative
+  prompt: "《示例小说》的最新章节讲了什么？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "最新章节内容 = 更新/剧透获取，非阅读前风险检查"
+
+# === 多书比较（V1.1 deferred）===
+- id: NEG-018
+  category: multi-novel-deferred
+  prompt: "《示例小说A》和《示例小说B》哪个更适合我？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "V1 未设计 multi-novel comparison；可逐本排雷，但不作为正式触发能力（PROPOSALS 已登记 V1.1 候选）"
+- id: NEG-019
+  category: multi-novel-deferred
+  prompt: "《示例小说A》和《示例小说B》哪个雷更多？"
+  context: ""
+  expected: DO_NOT_TRIGGER
+  critical: false
+  reason: "同上：两书比较延迟到 V1.1 评估"

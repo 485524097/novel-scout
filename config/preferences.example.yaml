@@ -1,0 +1,66 @@
+# Novel Scout 个人偏好配置（示例 / 模板）
+#
+# 使用方式：
+#   1. 复制本文件为 config/preferences.yaml；
+#   2. 按自己的真实偏好修改取值；
+#   3. 没有配置时 Novel Scout 仍可用（通用客观排雷模式）。
+#
+# 偏好标签与 taxonomy 标准 ID 的映射关系见 references/preference-guide.md §3.1。
+# 偏好只能影响：搜索优先级、报告排序、风险提示、最终建议；
+# 不能影响：事实判断、证据门槛、来源可信度、分类（preference-guide §4.5）。
+# 本文件内的示例值只是为了展示格式，不代表任何真实用户的偏好。
+#
+# V1 配置原则（Stage 3 REVISION 1 审计后定稿）：
+#   - 一个概念只有一个权威配置位置；
+#   - spoiler_level / detail_level 只存在于顶层（output 内不再重复）；
+#   - 不支持自定义表达式、权重、复杂模板。
+
+version: 1
+
+# 默认剧透等级：none（无剧透）/ light（轻微剧透，默认）/ full（完整剧透）
+# 权威位置：仅此处。输出规则见 references/report-format.md §7。
+spoiler_level: light
+
+# 默认详细程度：normal（默认）或 detailed
+# 权威位置：仅此处。输出规则见 references/report-format.md §8。
+detail_level: normal
+
+# 硬雷：一旦该维度 CONFIRMED，最终建议 = 不推荐（封顶，见 preference-guide §4.1）。
+hard_no:
+  # - ntr                      # NTR：确认即不推荐
+  # - harem                    # 明确后宫：确认即不推荐
+  # - heavy-protagonist-abuse  # 重度虐主（protagonist-abuse = heavy）
+  # - severe-saintliness       # 严重圣母（saintliness = high/extreme）
+  # - widely-disliked-ending   # 大范围差评结局（ending-reception = negative 且多独立来源一致）
+
+# 强反感：基本不可接受，命中时建议方向明显下调（谨慎/不推荐倾向）。
+strong_dislike:
+  # - harem                    # 与 hard_no 二选一：无法忍受 vs 极度反感
+  # - heavy-filler             # 重度水文（filler = high）
+  # - heavy-system             # 重度系统流（system-intensity = heavy）
+  # - obvious-plot-logic-problems  # 明显剧情逻辑问题（plot-logic = weak/inconsistent 高频）
+
+# 反感：可接受但明显减分。
+dislike:
+  # - heavy-protagonist-abuse
+  # - severe-saintliness
+  # - repetitive-patterns      # 套路重复（repetitive-patterns 高频）
+  # - pausing                  # serialization-status = paused（切忌与"太监"混用）
+
+# 无所谓：这些维度是否命中不影响评估。
+neutral:
+  # - slow-burn                # 慢热无感
+  # - single-romance           # 单女主无感（romance-structure = single）
+  # - light-saintliness        # 轻微圣母无感
+
+# 加分项：命中时在"和你的偏好"区提示亮点，不参与硬规则。
+# 注意：只接受 taxonomy 标准 ID 或复合值；若不使用 taxonomy ID（如自由文本兴趣），示例见 V1.1 候选（PROPOSALS.md）。
+like:
+  # - large-worldbuilding      # 世界观宏大（worldbuilding-scale = large/very-large）
+  # - coherent-power-system    # 力量体系自洽（power-system-consistency = strong/normal）
+  # - intelligent-protagonist  # 主角高智商（protagonist-iq = strong/normal）
+
+# 输出偏好（可选）
+output:
+  show_confidence: true        # 是否在各字段行内显示"已确认/较可信/证据较弱/无法确认"
+  show_sources: true           # 是否显示报告尾部"依据"列表
