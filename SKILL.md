@@ -1,9 +1,9 @@
 ---
 name: novel-scout
-description: Researches one specific novel before reading and checks reader deal-breakers—romance structure, harem, NTR, system mechanics, protagonist behavior, pacing, filler, plot logic, and ending reception. Use for 排雷/查毒点, a specific trope/risk question, worth-starting questions, or fit-to-preferences checks. Do not use for general book recommendations, writing/rewriting, literary analysis, metadata-only lookup, download/update lookup, or comparing multiple novels.
+description: Low-spoiler (spoiler-aware) vetting skill for Chinese web novels. Researches one specific novel before reading and checks reader deal-breakers—romance structure, harem, NTR, system mechanics, protagonist behavior, pacing, filler, plot logic, and ending reception. Use for 排雷/查毒点/小说避雷, a specific trope/risk question, worth-starting questions, or fit-to-preferences checks. Do not use for general book recommendations, writing/rewriting, literary analysis, metadata-only lookup, download/update lookup, or comparing multiple novels.
 compatibility: Requires web search or browser access and file-read access for bundled references. Reading config/preferences.yaml is optional.
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Novel Scout

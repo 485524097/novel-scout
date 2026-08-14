@@ -2,16 +2,30 @@
 
 本项目所有重要变更都会记录于此。格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 规则，版本遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
 
-## [1.0.0] - Unreleased
+## [1.1.0] - Unreleased
 
-> V1 产品版本 = 1.0.0；Release Status = **Release Candidate / Unreleased / User Experience Trial**。此前内部 `1.0.2` 从未正式发布，已统一收回到未发布 1.0.0 版本线。
-> 当前：核心 Runtime 已完成 Simplification Freeze；Behavior / Real E2E 作为回归保险保持 PASS；Trigger Runtime = PENDING（只限制“自动触发已验证”的宣称，不阻塞显式使用）；正式 GitHub Release 仍需人工批准。
+> 当前 main 上的开发版本，基于已公开的 v1.0.0 累积。正式发布前保持 Unreleased；v1.1.0 正式 GitHub Release 由人工决定（本轮不自动创建）。
+
+### Added (v1.1.0)
+
+- `novel-scout-roast/`：新增独立 Skill——与主 `novel-scout` 使用**完全相同**的证据标准与研究流程，仅报告层改为锐评/吐槽口吻；复用主 Skill 的 `references/`（安装依赖见其 SKILL.md：优先读自身 `references/`，否则读同级 `novel-scout` 的 `references/`）
+- `README.md` / `README.en.md`：开源可发现性优化——标题含「小说排雷 AI Skill」定位、30 秒上手示例、虚构示例输出、FAQ、「它不是什么」、显式「判断依赖公开网络信息」局限性；中英文自然融入「小说排雷 / 网文排雷 / 小说毒点 / Chinese web novel / novel risk checker / spoiler-aware / low spoiler」等搜索关键词
+- `CONTRIBUTING.md`：新增贡献指南（项目定位红线 / 贡献方式 / 测试说明）
+- GitHub repository metadata：description 改为英文优先（Spoiler-aware AI Skill for Chinese web novel risk checking…）；topics 更新为 agent-skills / chinese-web-novel / spoiler-free / spoiler-aware / reading-assistant 等 10 个
+
+### Changed (v1.1.0)
+
+- Current-State Consistency Repair（2026-08-14，runtime consistency）：Fast Path 增加最小 confidence guardrail；SPECIFIC_RISK 允许“明显倾向 / 存在争议”等中间状态直答；Behavior case 的旧 section / STEP 追踪引用全部修正；README Evidence 文案与 Runtime 对齐；偏好示例修正 `pausing → hiatus` 与 `light-saintliness → 1 light`
+- SPECIFIC_RISK Fast Path fresh Web regression **2/2 PASS**（《全职高手》非后宫、《斗破苍穹》明确后宫），均使用实际打开页面；详见 `evals/evidence/current-fastpath-regression.md`
+- `SKILL.md`：metadata.version 从 `1.0.0` → `1.1.0`（跟随仓库下一版本线）；frontmatter description 增加 low-spoiler / spoiler-aware / Chinese web novel / 小说避雷 等可发现性关键词（不改三模式与证据标准）
+- 发布状态一致性修复：GitHub 已存在公开 `v1.0.0`（2026-08-14，指向初始 commit `0493bb6`）；本仓库正式下一版本改为按 `v1.1.0` 处理；CHANGELOG / STATUS / RELEASE-CHECKLIST 中「v1.0.0 Unreleased / tag 与 GitHub Release 仍未创建」等与现状冲突的表述全部更新为当前事实（旧表述标注 Historical / Superseded 保留）
+
+## [1.0.0] - 2026-08-14
+
+> V1 正式公开版本。GitHub Release `v1.0.0` 已于 2026-08-14 发布（tag 指向初始 commit `0493bb6`）。
+> Historical / Superseded：下列条目中「正式 GitHub Release 仍需人工批准」「版本 tag 与 GitHub Release 仍未创建」等表述在 v1.0.0 发布后已失效，仅作历史记录保留；当前版本语义见上方 [1.1.0]。
 
 ### Changed (V1 Runtime Simplification — Experience Freeze)
-
-- 2026-08-14 Current-State Consistency Repair：Fast Path 增加最小 confidence guardrail；SPECIFIC_RISK 允许“明显倾向 / 存在争议”等中间状态直答；Behavior case 的旧 section / STEP 追踪引用全部修正；README Evidence 文案与 Runtime 对齐；偏好示例修正 `pausing → hiatus` 与 `light-saintliness → 1 light`
-- 当前 SPECIFIC_RISK Fast Path fresh Web regression 2/2 PASS（《全职高手》非后宫、《斗破苍穹》明确后宫），均使用实际打开页面；详见 `evals/evidence/current-fastpath-regression.md`
-- 仓库治理状态同步：Git / GitHub / main push 已完成；正式版本 tag 与 GitHub Release 仍未创建
 
 - `SKILL.md`：从约 8.8KB / 90 行压缩到约 5.1KB / 71 行；12 步编排改为 8 步实用流程，移除 P0~P6、复杂 section routing、DIMENSION/TASK STOP 形式化和正式 Evidence Ledger 要求
 - `references/search-playbook.md`：约 33.5KB → 11.6KB；移除 ACTIVE / OPPORTUNISTIC / ESCALATED、evidence_id / claim_id / independence_group、七项 Task Stop 等框架式抽象；保留三模式、共享 query、minimum sufficient fetch、冲突/时效/剧透/降级与够用即停

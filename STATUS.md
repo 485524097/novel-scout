@@ -4,13 +4,21 @@
 
 ## Current Stage
 
-**V1 RC / User Experience Trial — Runtime Simplification Freeze**
+**V1.1.0 Development（Unreleased）— 基于已发布的 v1.0.0**
 
-V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成的过度工程化进行减法：保留真实 Bug 修复，移除不必要的 Runtime 抽象。当前不再继续扩规则，进入真实使用体验阶段。
+v1.0.0 已作为首个公开版本发布（GitHub Release，2026-08-14，tag 指向初始 commit `0493bb6`）。当前 main 处于 v1.1.0 开发线，累积 v1.0.0 之后的 runtime consistency 修复、novel-scout-roast、README / 仓库可发现性优化与发布状态一致性修复。v1.1.0 保持 Unreleased，正式 GitHub Release 由人工决定（本轮不自动创建）。
 
 ## Current Checkpoint
 
-**RC EXPERIENCE FREEZE**：可以正常显式使用 Novel Scout；后续只有真实使用发现 Bug/UX 问题时才修改 Runtime。正式 GitHub Release 仍需人工批准。
+**V1.1.0 EXPERIENCE FREEZE（延续）**：v1.0.0 已发布；后续只有真实使用发现 Bug/UX 问题时才修改 Runtime；v1.1.0 正式发布仍需人工批准。
+
+## Version & Release State（当前事实）
+
+- GitHub Release `v1.0.0`：**已发布**（2026-08-14，Latest，指向初始 commit `0493bb6`）；作为历史首次公开 Release 保留，不删除 / 不 force-update / 不重新指向
+- 当前开发版本：**v1.1.0（Unreleased）**——v1.0.0 之后 main 上的所有新增 / 修改
+- SKILL.md metadata.version：**"1.1.0"**（跟随仓库下一版本线）
+- novel-scout-roast metadata.version：**"0.1.0"**（独立 Skill，不随仓库版本变化）
+- 本轮不自动创建 v1.1.0 GitHub Release；不创建 / 移动 / 删除任何 Git tag
 
 ## Gate Status
 
@@ -19,13 +27,13 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 - Behavior Static Gate: **PASS**（当前 **59/59**；**21 critical**；2026-08-14 traceability repair 后旧 section / STEP 引用 = 0）
 - Real E2E Gate: **PASS**（历史真实联网基线 PASS；当前 SPECIFIC_RISK Fast Path fresh Web 回归 **2/2 PASS**）
 - Practical Use Gate: **PASS**（可以进入真实使用体验）
-- Formal Release: **PENDING HUMAN APPROVAL**
+- Formal Release（v1.1.0）: **PENDING HUMAN APPROVAL**
 
 ## Product Info
 
-- Product Version: **1.0.0 RC / Unreleased**（SKILL.md metadata.version = "1.0.0"）
+- Product Version: **1.1.0（Unreleased）**（SKILL.md metadata.version = "1.1.0"）
 - Runtime Philosophy: **simple, evidence-first, minimum sufficient fetch, real-use driven**
-- Repository: **Git 已初始化；GitHub origin 已建立；main 已提交并推送**。正式版本 tag / GitHub Release 仍未创建；本轮 Current-State Repair 尚未提交。
+- Repository: **Git 已初始化；GitHub origin 已建立；main 已提交并推送；v1.0.0 Release 已公开（2026-08-14）**。v1.1.0 尚未发布。
 
 ## Completed（Post-optimization Revalidation）
 
@@ -56,6 +64,8 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 
 ## Completed（Current-State Consistency Repair — 2026-08-14）
 
+> 属于 v1.1.0 开发线（v1.0.0 发布之后的内容）。
+
 - C001 Fast Path 补齐最小 confidence guardrail：官方/第一方简单事实、多个独立可靠 page 的明确关系事实、单社区 page、snippet-only 与冲突状态均有直接判定边界
 - C002 SPECIFIC_RISK 输出不再强制“是 / 不是 / UNKNOWN”三选一；允许“明显倾向但未确认 / 存在争议”等与 taxonomy 一致的短结论
 - C003 Behavior traceability repair：59 个 case 数量与 expected 不变；旧 playbook/source-policy section 引用与旧 SKILL STEP 引用全部归零
@@ -67,7 +77,7 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 
 - **真实使用**：正常用 Novel Scout 看小说，记录真实 Bug / UX 问题；不要为了理论边界继续加规则
 - **Runtime Trigger（可选发布验证）**：有可观察自动路由的宿主时补测；补测前只限制“自动触发已验证”的宣称
-- **正式发布**：源码仓库已存在并推送；用户决定正式版本发布时再执行最终 checklist / tag / GitHub Release
+- **正式发布（v1.1.0）**：v1.0.0 已发布；v1.1.0 正式发布时再执行最终 checklist / tag / GitHub Release（需人工批准）
 
 ## Completed（Stage 8）
 
@@ -81,8 +91,8 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 - T811 Anti-hallucination Audit：8 条硬规则全部在位且无冲突
 - T812 Spoiler/Preference Audit：默认 light/normal、current request > configuration、hard_no+CONFIRMED→不推荐 全部成立
 - T813 evals/manual-smoke-tests.md 扩展为 9 项（+Smoke 8 推荐负例 / Smoke 9 续写负例；7 项标［Runtime Trigger］；10~15 分钟）
-- T814 CHANGELOG 定稿：`[1.0.0] - Unreleased`（不宣称 Released）
-- T815 版本定稿：1.0.0（RC），SKILL metadata 保持既有格式，README/CHANGELOG/STATUS 表述一致
+- T814 CHANGELOG 定稿：`[1.0.0] - Unreleased`（不宣称 Released） — **Historical / Superseded**：v1.0.0 已于 2026-08-14 发布，当前 CHANGELOG 以 [1.0.0]（Released）+ [1.1.0]（Unreleased）为准
+- T815 版本定稿：1.0.0（RC），SKILL metadata 保持既有格式，README/CHANGELOG/STATUS 表述一致 — **Historical / Superseded**：当前版本线为 v1.1.0（Unreleased），SKILL metadata.version = "1.1.0"
 - T816 创建 RELEASE-CHECKLIST.md（Product Logic vs Host Integration 分离；Runtime Trigger PENDING 不勾 PASS）
 - T817 最终 V1 Acceptance Review：**16 PASS / 1 WARN / 0 FAIL**（WARN = Runtime Trigger PENDING，宿主不可观测，非产品逻辑缺陷）
 - T818 更新 TASKS / STATUS + 输出 # CHECKPOINT 8 READY（本文件下方报告）
@@ -471,8 +481,8 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 9. **Evaluation Summary**：Trigger Static=PASS（55/55）· Trigger Runtime=**PENDING**（阻塞项）· Behavior Static=PASS（46/46）· Real E2E=PASS（7 core+3 HL+2 smoke）· Source Integrity=fake source 0（25/25）· Hallucination=3/3 · Spoiler=0 major leaks · Fresh Smoke=2/2
 10. **Known Limitations**：README 9 项（社区评价主观性 / 冷门可能 UNKNOWN / 连载结论有时效 / 来源依赖可访问性 / 反爬降级 / 不解析正文 / V1 无推荐 / V1 无多书比较 / Runtime Trigger 待宿主补测）
 11. **Runtime Trigger Pending**：当前开发宿主无法观测自动 Skill 路由 → 未完成真实自动触发验证；不表示 Skill 不可运行（显式请求完整流程已验）；补测 = 在可观测宿主执行 manual-smoke-tests ［Runtime Trigger］7 项
-12. **Version**：1.0.0（Release Status = Release Candidate / 1.0.0-rc.1）——保持 SKILL.md metadata.version="1.0.0" 既有格式；CHANGELOG 用 `[1.0.0] - Unreleased`，人工批准前不宣称 Released
-13. **CHANGELOG**：`[1.0.0] - Unreleased`（Stage 8 Added/Changed/Fixed + Stage 0~7 全记录）
+12. **Version**：1.0.0（Release Status = Release Candidate / 1.0.0-rc.1）——保持 SKILL.md metadata.version="1.0.0" 既有格式；CHANGELOG 用 `[1.0.0] - Unreleased`，人工批准前不宣称 Released — **Historical / Superseded**：v1.0.0 已于 2026-08-14 发布；当前版本线 = v1.1.0（Unreleased），SKILL.md metadata.version = "1.1.0"
+13. **CHANGELOG**：`[1.0.0] - Unreleased`（Stage 8 Added/Changed/Fixed + Stage 0~7 全记录） — **Historical / Superseded**：当前 CHANGELOG 结构为 [1.0.0]（Released）+ [1.1.0]（Unreleased）
 14. **RELEASE-CHECKLIST**：Product Logic Gates 15/15 勾选；Host Integration Gate（Runtime Trigger）= PENDING 未勾；发布动作 5 项待人工
 15. **Final Acceptance**：**16 PASS / 1 WARN（Runtime Trigger PENDING）/ 0 FAIL**（17 项：结构/frontmatter/references/config/触发边界/证据/taxonomy/偏好/剧透/报告/evals/README/LICENSE/CHANGELOG/版本/Scope/限制）
 16. **Scope Audit**：No Python / No scripts / No Web App / No backend / No database / No RAG / No recommendation / No bookshelf / No tracking / No crawler（*.py=0、*.js=0、*.sh=0、scripts/=0）

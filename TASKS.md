@@ -186,6 +186,8 @@
 
 ## Stage 8 — V1 Finalization / Release Preparation（任务书：CHECKPOINT-7 通过后执行）
 
+> **Historical / Superseded**：本段为 v1.0.0 发布前（2026-08-14）的历史任务记录；其中「版本段 `[1.0.0] - Unreleased`」「Release Status = Release Candidate」「SKILL.md metadata.version = "1.0.0"」等表述已被 v1.0.0 实际发布取代。当前版本线 = v1.1.0（Unreleased），SKILL.md metadata.version = "1.1.0"。
+
 - [x] T801 最终项目结构审计（实际结构与 DESIGN.md 目标结构一致；新增 evals/evidence/、evals/STAGE7-SPEC.md、RELEASE-CHECKLIST.md 为合理产物；未创建空文件）
 - [x] T802 完善 README.md（正式用户首页：What it does / Quick Start（中文示例）/ What it checks / How it works / Personal Preferences / Spoiler Control / Evidence & Sources / Limitations / Project Structure / Evaluation / Development Status / License）
 - [x] T803 完善 docs/DEVELOPMENT.md（追加 §9 Development Stages（Stage 0~8）/ §10 Evaluation Gates（含 Runtime Trigger Pending 准确解释）/ §11 Runtime vs Development Artifacts / §12 Release Process / §13 Known Pending）
