@@ -1,3 +1,5 @@
+[English](README.en.md) · 中文
+
 # Novel Scout
 
 > 在你花 50 个小时看一本小说之前，先排个雷。
@@ -145,7 +147,8 @@ output:
 ```
 novel-scout/
 ├── SKILL.md                      # Skill 本体（编排层）
-├── README.md                     # 本文件
+├── README.md                     # 本文件（中文）
+├── README.en.md                  # English version
 ├── CHANGELOG.md
 ├── LICENSE
 ├── .gitignore
