@@ -126,7 +126,8 @@ Reports open with the current spoiler level and the information cutoff date.
 
 ## Evidence & Sources
 
-- All conclusions are based on real search and page visits; source tiers (official / wiki / community / AI aggregation) are clearly marked
+- All conclusions are grounded in real retrieved evidence; important strong claims are preferably verified against opened pages
+- Official, reliable secondary, community, and weak sources are distinguished, and search snippets are never presented as pages that were actually opened
 - When a source title itself could spoil, the report redacts it
 - Serialized works are marked "as of YYYY-MM-DD"; the current state is never written as permanent fact
 

@@ -464,3 +464,16 @@ Stage 8 之后的 Runtime Optimization Round 2 暴露了一个真实合规失败
 - **Fresh/live Web rerun = 3/3 PASS**：随后已执行 post-optimization targeted fresh regression，详见 `evals/evidence/postopt-live-regression.md`：FRESH-R1《全职高手》SPECIFIC_RISK、FRESH-R2《凡人修仙之仙界篇》FULL_SCAN targeted ending、FRESH-R3《斗破苍穹》FIT_CHECK+hard_no。三个 case 的强结论均在实际 page 打开后形成，覆盖 H3 新映射、DIVIDED 双侧 Page Anchor、hard_no 证据链。
 - **Real E2E Gate（post-optimization）= PASS**：依据 = Stage 7 历史完整覆盖 + 10/10 ledger re-audit + 3/3 fresh targeted live regression。准确口径是“受 runtime 优化影响的关键执行路径已重新验证”，**不宣称重新抓取了 Stage 7 全部 12 个对象**。
 - 旧 Fresh Smoke 中 `SM-02 2q/0p → LIKELY/CONFIRMED` 的历史表述已被 `core-sm2.md` 最新重判 supersede；历史记录仅用于追踪当时发生了什么，不再作为当前强事实基线。
+
+## Current Runtime Fast Path Revalidation — 2026-08-14
+
+> 本节 supersede 上一节中已经从 Runtime 删除的 Page Anchor / 旧 section 编号等实现术语；上一节继续作为历史审计记录保存。当前 Runtime 的有效规则以 `SKILL.md`、`references/source-policy.md` 与 `references/search-playbook.md` 为准。
+
+- 当前 Evidence 简化规则保持不变：snippet/search-result ≠ page；纯 snippet 上限 WEAK；重要强结论打开少量高价值页面；多个来源必须真正独立；冲突不多数投票。
+- Behavior traceability 已重新对齐当前 Runtime：59 cases / 21 critical；无效 runtime section 引用 = 0；不存在的旧 `SKILL.md STEP` 引用 = 0。
+- 当前 `SPECIFIC_RISK Fast Path` fresh Web regression = **2/2 PASS**，详见 `evals/evidence/current-fastpath-regression.md`：
+  - 《全职高手》后宫吗？→ H3 / no-romance，2 个实际 page，LIKELY / CONSISTENT；
+  - 《斗破苍穹》后宫吗？→ H1 / harem，2 个实际 page，CONFIRMED / CONSISTENT。
+- 两个 case 均在目标问题回答后停止，没有扩张为 FULL_SCAN，也没有 snippet-only confidence 升级。
+
+**Current Real E2E statement**：历史完整 Web 基线仍为 PASS；post-optimization 3/3 targeted live regression 仍保留；当前高频 SPECIFIC_RISK Fast Path 已追加 2/2 fresh regression。该口径不宣称重新执行完整 Stage 7。

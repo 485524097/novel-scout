@@ -9,6 +9,10 @@
 
 ### Changed (V1 Runtime Simplification — Experience Freeze)
 
+- 2026-08-14 Current-State Consistency Repair：Fast Path 增加最小 confidence guardrail；SPECIFIC_RISK 允许“明显倾向 / 存在争议”等中间状态直答；Behavior case 的旧 section / STEP 追踪引用全部修正；README Evidence 文案与 Runtime 对齐；偏好示例修正 `pausing → hiatus` 与 `light-saintliness → 1 light`
+- 当前 SPECIFIC_RISK Fast Path fresh Web regression 2/2 PASS（《全职高手》非后宫、《斗破苍穹》明确后宫），均使用实际打开页面；详见 `evals/evidence/current-fastpath-regression.md`
+- 仓库治理状态同步：Git / GitHub / main push 已完成；正式版本 tag 与 GitHub Release 仍未创建
+
 - `SKILL.md`：从约 8.8KB / 90 行压缩到约 5.1KB / 71 行；12 步编排改为 8 步实用流程，移除 P0~P6、复杂 section routing、DIMENSION/TASK STOP 形式化和正式 Evidence Ledger 要求
 - `references/search-playbook.md`：约 33.5KB → 11.6KB；移除 ACTIVE / OPPORTUNISTIC / ESCALATED、evidence_id / claim_id / independence_group、七项 Task Stop 等框架式抽象；保留三模式、共享 query、minimum sufficient fetch、冲突/时效/剧透/降级与够用即停
 - `references/source-policy.md`：约 12.8KB → 5.9KB；取消 Page Anchor 术语/矩阵，保留核心事实：`snippet/search-result ≠ page`、纯 snippet 上限 WEAK、重要强结论应打开 1~2 个关键页面、多个 snippet 不能靠数量升级

@@ -234,6 +234,12 @@
 - [x] S009 新增 SPECIFIC_RISK Fast Path：短执行卡 + 目标 taxonomy + 单项报告规则
 - [x] S010 第二轮结构回归 + 12 个受影响 Preference/Report behavior contract 复核 PASS
 - [x] S011 高频单雷点最小本地规则路径测量：约 9.6KB / 5.45k chars（partial read；不含 Web）
+- [x] C001 Fast Path 补最小 confidence guardrail，不恢复完整 Evidence 法典
+- [x] C002 SPECIFIC_RISK 直答允许 H2 / possible / disputed 等中间状态的人话表达
+- [x] C003 修复 Behavior 旧章节 / STEP 引用；59 case / 21 critical / expected 均不变，stale traceability = 0
+- [x] C004 README 中英文证据措辞与当前 Runtime 对齐；修 preference example 注释
+- [x] C005 Fresh Fast Path Web regression：全职高手 / 斗破苍穹 2/2 PASS（actual page）
+- [x] C006 同步当前 Git / GitHub / Release 状态文档
 - [ ] S012 **真实使用体验**：正常使用 Novel Scout；只根据真实 Bug / UX 反馈决定后续 1.0.x 修改
 
 ## 规则提醒

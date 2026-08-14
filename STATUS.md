@@ -16,8 +16,8 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 
 - Trigger Static Gate: **PASS**（55/55，开发回归基线）
 - Trigger Runtime Gate: **PENDING**（宿主级自动路由尚未严格可观测；不阻塞显式调用，但不能宣称自动触发已验证）
-- Behavior Static Gate: **PASS**（当前 **59/59**；**21 critical**；作为回归保险，不参与正常 Runtime）
-- Real E2E Gate: **PASS**（真实联网 E2E + 后续代表性回归已完成）
+- Behavior Static Gate: **PASS**（当前 **59/59**；**21 critical**；2026-08-14 traceability repair 后旧 section / STEP 引用 = 0）
+- Real E2E Gate: **PASS**（历史真实联网基线 PASS；当前 SPECIFIC_RISK Fast Path fresh Web 回归 **2/2 PASS**）
 - Practical Use Gate: **PASS**（可以进入真实使用体验）
 - Formal Release: **PENDING HUMAN APPROVAL**
 
@@ -25,7 +25,7 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 
 - Product Version: **1.0.0 RC / Unreleased**（SKILL.md metadata.version = "1.0.0"）
 - Runtime Philosophy: **simple, evidence-first, minimum sufficient fetch, real-use driven**
-- 发布动作（git/GitHub/tag/Release）: 全部未执行，需人工批准
+- Repository: **Git 已初始化；GitHub origin 已建立；main 已提交并推送**。正式版本 tag / GitHub Release 仍未创建；本轮 Current-State Repair 尚未提交。
 
 ## Completed（Post-optimization Revalidation）
 
@@ -54,11 +54,20 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 - S010 第二轮结构回归通过；受影响的 12 个 Preference/Report behavior case 人工复核通过
 - S011 高频单雷点最小本地规则路径约 9.6KB / 5.45k chars（不含 Web 内容）
 
+## Completed（Current-State Consistency Repair — 2026-08-14）
+
+- C001 Fast Path 补齐最小 confidence guardrail：官方/第一方简单事实、多个独立可靠 page 的明确关系事实、单社区 page、snippet-only 与冲突状态均有直接判定边界
+- C002 SPECIFIC_RISK 输出不再强制“是 / 不是 / UNKNOWN”三选一；允许“明显倾向但未确认 / 存在争议”等与 taxonomy 一致的短结论
+- C003 Behavior traceability repair：59 个 case 数量与 expected 不变；旧 playbook/source-policy section 引用与旧 SKILL STEP 引用全部归零
+- C004 README 中英文 Evidence 文案与 Runtime 对齐；不再宣称“所有结论都经过页面访问”或向普通用户暴露 Tier 术语
+- C005 `preferences.example.yaml` 修正 `pausing → hiatus` 与 `light-saintliness → saintliness = 1 light` 注释
+- C006 当前 SPECIFIC_RISK Fast Path fresh Web regression：`《全职高手》后宫吗？` + `《斗破苍穹》后宫吗？` **2/2 PASS**，均使用实际打开页面，未发生 snippet-only 强升级
+
 ## Remaining
 
 - **真实使用**：正常用 Novel Scout 看小说，记录真实 Bug / UX 问题；不要为了理论边界继续加规则
 - **Runtime Trigger（可选发布验证）**：有可观察自动路由的宿主时补测；补测前只限制“自动触发已验证”的宣称
-- **正式发布**：用户决定发布时再执行最终 checklist / git / tag / GitHub Release
+- **正式发布**：源码仓库已存在并推送；用户决定正式版本发布时再执行最终 checklist / tag / GitHub Release
 
 ## Completed（Stage 8）
 
@@ -467,7 +476,7 @@ V1 主体与真实 Web 验证已经完成。2026-08-13 对后续 AI 迭代造成
 14. **RELEASE-CHECKLIST**：Product Logic Gates 15/15 勾选；Host Integration Gate（Runtime Trigger）= PENDING 未勾；发布动作 5 项待人工
 15. **Final Acceptance**：**16 PASS / 1 WARN（Runtime Trigger PENDING）/ 0 FAIL**（17 项：结构/frontmatter/references/config/触发边界/证据/taxonomy/偏好/剧透/报告/evals/README/LICENSE/CHANGELOG/版本/Scope/限制）
 16. **Scope Audit**：No Python / No scripts / No Web App / No backend / No database / No RAG / No recommendation / No bookshelf / No tracking / No crawler（*.py=0、*.js=0、*.sh=0、scripts/=0）
-17. **Git**：Initialized: NO · Commit created: NO · Tag created: NO · Remote pushed: NO（未初始化 .git；发布动作全部待人工确认）
+17. **Git（Stage 8 当时的历史快照）**：当时 Initialized: NO / Commit: NO / Remote: NO；**该历史状态已被后续 GitHub 建仓与推送取代，当前状态以顶部 Product Info 为准**。
 18. **Files changed in Stage 8**：README.md、docs/DEVELOPMENT.md、evals/manual-smoke-tests.md、CHANGELOG.md、RELEASE-CHECKLIST.md（新建）、TASKS.md、STATUS.md；未修改 SKILL.md / references/* / config/*
 19. **Remaining proposals（V1.1+，不实现）**：multi-novel comparison / recommendation / interests 字段 / none 剧透边界细化 / 站点内 SEO 问答页定级警觉 / 大页 fetch 成本
 20. **V1 Release Readiness（历史结论）**：~~READY~~ → **SUPERSEDED / REVALIDATION REQUIRED**。本行仅保留变更历史，不得用于当前发布判断。

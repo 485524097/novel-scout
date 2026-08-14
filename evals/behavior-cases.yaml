@@ -63,7 +63,7 @@ cases:
       - "detail_level = normal（默认）"
     must_not:
       - "解析为 SPECIFIC_RISK 或 FIT_CHECK"
-  reason: 验证 SKILL.md STEP 1 / search-playbook §3.1~3.3 的默认解析。“排雷《X》”是 FULL_SCAN 原型请求。
+  reason: 验证 SKILL.md Modes / Core Workflow Parse + search-playbook §1~§2 的默认解析。“排雷《X》”是 FULL_SCAN 原型请求。
 
 - id: RP-002
   category: request-parsing
@@ -91,7 +91,7 @@ cases:
     must_not:
       - "解析为 FULL_SCAN"
       - "调查范围扩大到 16 CORE"
-  reason: search-playbook §3.3 有同名示例；验证单一雷点 + 无剧透修饰的解析组合。
+  reason: search-playbook §1~§2 定义 SPECIFIC_RISK 与请求修饰；report-format §7 定义 none 剧透输出边界。
 
 - id: RP-003
   category: request-parsing
@@ -173,7 +173,7 @@ cases:
       - "继续进入研究计划，不询问用户消歧"
     must_not:
       - "因同名焦虑无限加查"
-  reason: search-playbook §4.3（书名 + 作者一致 → HIGH 可继续）；验证正常路径不被打断。
+  reason: search-playbook §4（书名 + 作者信息足以达到 HIGH 身份置信度时可继续）；验证正常路径不被打断。
 
 - id: IDENTITY-002
   category: identity
@@ -202,7 +202,7 @@ cases:
       - "把李青版的后宫结论用到陈舟版（或反之）"
       - "自动选择搜索排名第一的那本"
       - "进入正式排雷结论"
-  reason: SKILL.md STEP 2（IDENTITY FIRST / 不得混合调查）+ playbook §4.3 STOP WHEN 消歧失败 → 询问用户。混合 evidence 是 Critical Failure #1。
+  reason: SKILL.md Core Workflow Identity + playbook §4：身份 LOW 时先询问用户，不得混合不同同名小说资料。混合 evidence 是 Critical Failure #1。
 
 - id: IDENTITY-003
   category: identity
@@ -230,7 +230,7 @@ cases:
     must_not:
       - "继续询问用户"
       - "混入陈舟版 evidence"
-  reason: playbook §4.3（使用用户提供的作者消歧）。
+  reason: playbook §4（使用用户提供的作者 / 平台提示进行身份消歧）。
 
 - id: IDENTITY-004
   category: identity
@@ -255,7 +255,7 @@ cases:
     must_not:
       - "以 LOW identity 进入正式排雷并给确定结论"
       - "混合冲突候选的证据"
-  reason: playbook §4.4 / §16.5（LOW 不得进入正式排雷结论）。避免“身份不明强下结论”。
+  reason: playbook §4 / §16（身份 LOW 时先消歧，不得进入正式排雷结论）。避免“身份不明强下结论”。
 
 - id: IDENTITY-005
   category: identity
@@ -351,7 +351,7 @@ cases:
     must_not:
       - "harem = CONFIRMED"
       - "把摘要当页面证据输出确定结论"
-  reason: source-policy §3.2（摘要 ≠ 页面证据，只能 WEAK 线索）+ playbook §8.3/§16.2。snippet 冒充 page 是 Critical Failure #3。
+  reason: source-policy §3.1~§3.2（摘要 ≠ 页面证据，只能 WEAK 线索）+ playbook §8.1 / §16。snippet 冒充 page 是 Critical Failure #3。
 
 - id: EVID-003
   category: evidence-access
@@ -385,7 +385,7 @@ cases:
     must_not:
       - "以标题里的'后宫'二字直接判分类"
       - "把 search-result 当 page 证据"
-  reason: playbook §8.3（search-result 只能引导查询）+ §6.2（搜索词命中 ≠ 分类成立）。
+  reason: playbook §8.1（search-result 主要用于导航）+ §6.2（搜索词命中 ≠ 分类成立）。
 
 - id: EVID-004
   category: evidence-access
@@ -434,7 +434,7 @@ cases:
     must_not:
       - "slow-burn = 高（CONFIRMED）"
       - "'多个来源一致'表述（实际只有一条来源链）"
-  reason: source-policy §3.1 / playbook §9.1（转载按根来源合并计数；升级 LIKELY 必须多个独立来源一致）。Critical Failure：同源链冒充独立性。
+  reason: source-policy §6 / playbook §9（转载按根来源合并计权；多个来源必须真正独立）。Critical Failure：同源链冒充独立性。
 
 - id: EVID-005
   category: evidence-access
@@ -479,7 +479,7 @@ cases:
     must_not:
       - "只保存 SUPPORT 证据而丢弃 REFUTE / CONTEXT"
       - "忽略 REFUTE 直接判 harem 或 single 的确定结论"
-  reason: SKILL.md STEP 6（必须同时考虑 SUPPORT / REFUTE / CONTEXT）+ playbook §8.6（不形成印象后只记录支持性页面）。
+  reason: playbook §8.2（不要先形成结论后只收集支持性证据；重要争议应考虑正反证据）。
 
 # ============================================================
 # T605 — Claim → Dimension（4）
@@ -645,7 +645,7 @@ cases:
     must_not:
       - "2:1 或 1:1 多数投票定结论"
       - "按 B 的泛化定义判 harem"
-  reason: SKILL.md STEP 9（不得多数投票）+ playbook §11.3（先检查术语定义）+ taxonomy §3.4 类似原则。Critical Failure：多数投票。
+  reason: SKILL.md Core Workflow Classify + playbook §11（先检查术语、时间与独立性，不得多数投票）+ taxonomy §3.4 类似原则。Critical Failure：多数投票。
 
 - id: CONFLICT-002
   category: conflict-agreement
@@ -685,7 +685,7 @@ cases:
     must_not:
       - "value = UNKNOWN"
       - "表述为'证据混乱 / 无法判断'"
-  reason: taxonomy §8（MIXED 语义）+ playbook §11.4 + source-policy §5.3（三层分离正确示例）。
+  reason: taxonomy §8（MIXED 语义）+ playbook §11 + source-policy §5.1~§5.2（value / confidence / agreement 分离）。
 
 - id: CONFLICT-003
   category: conflict-agreement
@@ -727,7 +727,7 @@ cases:
     must_not:
       - "按多数或印象选边"
       - "把冲突当作'没有 NTR'处理"
-  reason: playbook §11.2（冲突解决顺序后仍冲突 → DISPUTED，输出并存）+ source-policy §5.2。
+  reason: playbook §11（冲突检查后仍无法解决 → DISPUTED，输出并存）+ source-policy §5.2。
 
 - id: CONFLICT-004
   category: conflict-agreement
@@ -809,7 +809,7 @@ cases:
     must_not:
       - "用 2024 年旧结论覆盖新信息"
       - "把'当时无女主'写成当前事实"
-  reason: source-policy §3.4（可变信息优先最新来源）+ playbook §12.3/§12.4（旧帖只能说明当时状态）。
+  reason: source-policy §6（时效）+ playbook §12（旧帖只能说明当时状态，动态信息优先更新后的实际结果）。
 
 - id: REC-002
   category: recency
@@ -836,7 +836,7 @@ cases:
       - "注明'作品仍在连载，后续可能发生变化'"
     must_not:
       - "输出'无后宫'作为永久事实"
-  reason: playbook §12.3（连载作品结论必须绑定“截至 YYYY-MM-DD”）。
+  reason: playbook §12（连载作品动态结论必须绑定“截至 YYYY-MM-DD”）。
 
 - id: REC-003
   category: recency
@@ -878,7 +878,7 @@ cases:
     must_not:
       - "把 2024 年预测当作结局结论"
       - "因旧预测判'烂尾'"
-  reason: playbook §12.4/§12.5（旧帖预测不是事实；完结后实际结果优先）。
+  reason: playbook §12（旧帖预测不是后续事实；完结后的实际结果优先）。
 
 # ============================================================
 # T608 — Preference（6）
@@ -919,7 +919,7 @@ cases:
     must_not:
       - "Recommendation 高于'不推荐'（推荐 / 可以尝试）"
       - "用 like 优点'平均掉'硬雷"
-  reason: SKILL.md STEP 11（hard_no 封顶）+ preference-guide §4.1（不得高于“不推荐”）。Critical Failure #7。
+  reason: SKILL.md Research Rules + preference-guide §4.1（hard_no + CONFIRMED → 不推荐，不能被 like 抵消）。Critical Failure #7。
 
 - id: PREF-002
   category: preference
@@ -951,7 +951,7 @@ cases:
     must_not:
       - "Recommendation = 推荐 / 可以尝试"
       - "把 UNKNOWN 表述为'应该没有 NTR'"
-  reason: SKILL.md STEP 11 + preference-guide §4.2（UNKNOWN / WEAK → 谨慎）。Critical Failure #8（UNKNOWN 写成“应该没有”）。
+  reason: SKILL.md Research Rules + preference-guide §4.2（hard_no 为 UNKNOWN / WEAK → 谨慎）。Critical Failure #8（UNKNOWN 写成“应该没有”）。
 
 - id: PREF-003
   category: preference
@@ -982,7 +982,7 @@ cases:
     must_not:
       - "反向修改证据门槛 / 来源可信度 / 分类"
       - "把 LIKELY 改写成 CONFIRMED 来'强化'不推荐理由"
-  reason: SKILL.md STEP 11（偏好只能影响 4 项，不能影响事实判断 / 证据门槛）+ preference-guide §4.5。Preference Pollution 是 Critical Failure #6。
+  reason: SKILL.md Research Rules（偏好不能改变事实 / confidence / 来源标准）+ preference-guide §4.5。Preference Pollution 是 Critical Failure #6。
 
 - id: PREF-004
   category: preference
@@ -1125,7 +1125,7 @@ cases:
       - "出现角色名'叶澜'"
       - "出现死亡事件描述"
       - "出现'中后期重要角色死亡'等具体事件"
-  reason: SKILL.md STEP 12 + playbook §13.2（major 证据只能抽象输出）。none 泄漏 major spoiler 是 Critical Failure #9。
+  reason: SKILL.md Core Workflow Report + playbook §13 / report-format §7（none 只输出结构级结论）。none 泄漏 major spoiler 是 Critical Failure #9。
 
 - id: SPOILER-002
   category: spoiler
@@ -1156,7 +1156,7 @@ cases:
       - "URL 保留可查"
     must_not:
       - "展示含'叶澜死亡'的原始标题"
-  reason: playbook §13.3（来源标题剧透 → 脱敏并保留链接）+ report-format §7。
+  reason: playbook §13 + report-format §7（来源标题本身剧透时脱敏展示）。
 
 - id: SPOILER-003
   category: spoiler
@@ -1354,7 +1354,7 @@ cases:
     must_not:
       - "假装完成了搜索与证据收集"
       - "用模型记忆输出排雷结论"
-  reason: SKILL.md STEP 5 + playbook §16.1（无联网工具 → 不模拟搜索）。Critical Failure #12。
+  reason: SKILL.md Failure / Degradation + playbook §16（无联网工具 → 不模拟正式搜索）。Critical Failure #12。
 
 - id: FAIL-002
   category: failure-degradation
@@ -1382,7 +1382,7 @@ cases:
       - "为填满报告继续降低证据标准（用 Tier D 当依据）"
       - "用模型记忆补全字段"
       - "把'查不到'写成'应该没有'"
-  reason: SKILL.md Failure and Degradation + playbook §16.3/§16.4（不降低标准；UNKNOWN 合法）。Critical Failure #8 关联（UNKNOWN 写成“应该没有”）。
+  reason: SKILL.md Failure / Degradation + playbook §16（弱来源 / 无结果时不降低标准；UNKNOWN 合法）。Critical Failure #8 关联（UNKNOWN 写成“应该没有”）。
 
 - id: FAIL-003
   category: failure-degradation
@@ -1416,7 +1416,7 @@ cases:
     must_not:
       - "以摘要为据输出'虐主'确定结论"
       - "静默把 access_mode 记为 page"
-  reason: playbook §16.2（页面打不开 → 保持 snippet / search-result，不允许升级 CONFIRMED）。
+  reason: playbook §16（页面打不开 → 保持 snippet / search-result 级证据，不允许无依据升级 CONFIRMED）。
 
 - id: FAIL-004
   category: failure-degradation
@@ -1465,7 +1465,7 @@ cases:
     must_not:
       - "宣称'community consensus / 多来源一致'"
       - "ending-reception = positive（CONFIRMED）"
-  reason: source-policy §3.1 / playbook §9.1（同源合并；升级 LIKELY 需要真正独立来源一致）。
+  reason: source-policy §6 / playbook §9（同源合并；升级 LIKELY 需要真正独立、较可靠来源相互支持）。
 
 # ============================================================
 # T612 — Report / UX（4）
@@ -1500,7 +1500,7 @@ cases:
     must_not:
       - "以作者 / 简介 / 平台 / 小说历史开头"
       - "顺带输出世界观 / 慢热 / 战力体系等其他字段"
-  reason: SKILL.md STEP 12（SPECIFIC_RISK 第一句直答）+ report-format §3 / §5。
+  reason: SKILL.md Core Workflow Report（SPECIFIC_RISK 第一屏直答）+ report-format §3 / §5。
 
 - id: REPORT-002
   category: report-ux
@@ -1527,7 +1527,7 @@ cases:
     must_not:
       - "固定打印 16 行数据库式报告"
       - "把内部证据笔记 / evidence_id / access_mode 倾倒进报告"
-  reason: report-format §4（RESEARCH COVERAGE ≠ REPORT VISIBILITY；禁止固定 16 行）+ SKILL.md STEP 12。
+  reason: report-format §4（FULL_SCAN normal 只展示重要结果，禁止固定打印全部 CORE）+ SKILL.md Core Workflow Report。
 
 - id: REPORT-003
   category: report-ux
@@ -1565,7 +1565,7 @@ cases:
     must_not:
       - "给 harem / system / slow-burn 标 ❌（无偏好时）"
       - "假定用户讨厌这些属性"
-  reason: SKILL.md STEP 12（无偏好不把 harem/system/slow-burn 判成 ❌）+ report-format §4/§16 + preference-guide §1。
+  reason: SKILL.md Core Workflow Report + report-format §4/§16 + preference-guide §1（无偏好时保持中性，不默认把 harem/system/slow-burn 判成 ❌）。
 
 - id: REPORT-004
   category: report-ux
@@ -1684,7 +1684,7 @@ cases:
     must_not:
       - "把 E001 计入独立来源数"
       - "因 E001 属某域名就永久封禁该域名全部内容"
-  reason: source-policy §3.3（AI-generated Sources：识别特征、只按具体页面评价、AI 来源最多用于线索）。
+  reason: source-policy §2 Tier D + §7（AI 聚合 / 自动生成页主要作为线索，不单独支撑强结论）。
 
 # ============================================================
 # Round 2 新增（T7xx — FULL_SCAN normal Search Optimization；历史名称已简化）

@@ -17,7 +17,7 @@
 - [x] Hallucination Challenge PASS（3/3，Stage 7 T716）
 - [x] No-spoiler：major spoiler leak = 0（2 专项 6/6×2 + 真实 Case none 零泄漏，Stage 7 T710）
 - [x] Scope Audit PASS（无 Python / scripts / JS / Web App / 数据库 / RAG / 推荐 / 书架 / 追更 / 爬虫，Stage 8 T810）
-- [x] README 完整（Quick Start / Preferences / Spoiler Control / Limitations / Evaluation / Development Status）
+- [x] README 完整（用户视角：What it does / Quick Start / What it checks / How it works / Preferences / Spoiler / Evidence / Limitations）
 - [x] LICENSE 存在（MIT）
 - [x] CHANGELOG 完整（[1.0.0] - Unreleased，Stage 0~8 记录）
 - [x] Manual Smoke Checklist 完整（9 项，evals/manual-smoke-tests.md）
@@ -37,9 +37,10 @@
 
 - [x] Post-optimization Real E2E revalidation PASS
 - [x] Runtime Simplification completed（保留 Evidence 底线，移除过度工程化 Runtime 抽象）
+- [x] Current Fast Path fresh Web regression PASS（2026-08-14，2/2；actual page）
+- [x] Git repository initialized
+- [x] GitHub repository / origin created and main pushed
 - [ ] Runtime Trigger Gate PASS（可选；若仍 PENDING，正式发布说明中不得宣称自动触发已验证）
 - [ ] CHECKPOINT-8 / Formal Release 人工批准
-- [ ] git init（如需）并提交
-- [ ] 创建 GitHub 仓库（如需）
 - [ ] 打 tag（如 v1.0.0）
 - [ ] 创建 GitHub Release

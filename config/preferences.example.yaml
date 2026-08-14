@@ -45,13 +45,13 @@ dislike:
   # - heavy-protagonist-abuse
   # - severe-saintliness
   # - repetitive-patterns      # 套路重复（repetitive-patterns 高频）
-  # - pausing                  # serialization-status = paused（切忌与"太监"混用）
+  # - pausing                  # serialization-status = hiatus（切忌与“太监”混用）
 
 # 无所谓：这些维度是否命中不影响评估。
 neutral:
   # - slow-burn                # 慢热无感
   # - single-romance           # 单女主无感（romance-structure = single）
-  # - light-saintliness        # 轻微圣母无感
+  # - light-saintliness        # saintliness = 1 light，轻微圣母无感
 
 # 加分项：命中时在"和你的偏好"区提示亮点，不参与硬规则。
 # 注意：只接受 taxonomy 标准 ID 或复合值；若不使用 taxonomy ID（如自由文本兴趣），示例见 V1.1 候选（PROPOSALS.md）。

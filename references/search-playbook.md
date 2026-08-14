@@ -12,7 +12,7 @@
 2. 只搜索目标雷点；关键词只是线索，最终按 taxonomy 定义判断。
 3. snippet 只用于筛页面；只有 snippet 时结论最多 WEAK。
 4. 需要更强结论时，打开 1~2 个最可能直接解决问题的页面。
-5. 得出 `value + confidence + agreement`；有冲突就如实标争议，不多数投票。
+5. 得出 `value + confidence + agreement`。快速判定：官方/第一方 page 直接确认简单事实可 `CONFIRMED`；多个独立、可靠 page 对明确关系事实都直接确认时也可 `CONFIRMED`；单个社区 page 通常仍是 `WEAK`；多个真正独立、较可靠来源相互支持且关键内容已实际 page 核验时通常可到 `LIKELY`；证据不足或存在实质冲突时保持 `WEAK / UNKNOWN / DISPUTED`。有冲突不多数投票。
 6. 第一句直接回答用户，目标问题答完或明确 UNKNOWN 后停止。
 
 常见异常再跳到对应章节：同名→§4；冲突→§11；连载时效→§12；剧透→§13；搜索/fetch 成本→§14；失败降级→§16。

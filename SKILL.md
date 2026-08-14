@@ -44,7 +44,7 @@ metadata:
 5. **Fetch only when useful**：搜索摘要只用来发现线索。若只有 snippet，结论最多 WEAK；需要更强结论时，优先打开 1~2 个最有价值的页面核实。目标是 **minimum sufficient fetch**，不是 zero fetch，也不是越多越好。
 6. **Judge**：按 `Evidence → Claim → Dimension` 判断。只需保留简洁证据笔记：来源、是否实际打开、支持/反对什么、核心摘要。不要为了形式建立复杂台账。
 7. **Classify**：Dimension Value 使用 taxonomy；Evidence Confidence 只用 `CONFIRMED / LIKELY / WEAK / UNKNOWN`；Agreement 只用 `CONSISTENT / DISPUTED / DIVIDED / INSUFFICIENT`。来源冲突时不要多数投票。
-8. **Report**：第一屏先回答用户问题。SPECIFIC_RISK 第一行直接说“是 / 不是 / 无法确认”；FULL_SCAN normal 只展示最重要的 6~10 项；none 模式不泄露关键死亡、重大反转和结局事件。
+8. **Report**：第一屏先回答用户问题。SPECIFIC_RISK 第一行直接给最准确的短结论，例如“是 / 不是 / 有明显倾向但未确认 / 存在争议 / 无法确认”；不要为了二选一压平 taxonomy 边界。FULL_SCAN normal 只展示最重要的 6~10 项；none 模式不泄露关键死亡、重大反转和结局事件。
 
 ## Research Rules
 

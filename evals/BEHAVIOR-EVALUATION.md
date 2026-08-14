@@ -370,6 +370,15 @@
 
 结论：V1 Runtime 进入 **Simplification Freeze / User Experience Trial**。后续只有真实使用发现 Bug / UX 问题时才新增或修改规则。
 
+## Current-State Consistency Repair — 2026-08-14
+
+- Behavior corpus 保持 **59 cases / 21 critical**，未新增 case、未修改 ID、未改变 expected 语义。
+- Runtime Simplification 后遗留的旧追踪引用已修复：`search-playbook` / `source-policy` 无效 section 引用 = **0**；不存在的 `SKILL.md STEP 9/11/12` 引用 = **0**。
+- SPECIFIC_RISK Fast Path 增加最小 confidence guardrail；报告允许 H2 / possible / disputed 等中间状态用人话直答，不再被“是 / 不是 / UNKNOWN”三选一压平。
+- Fresh Web regression：`evals/evidence/current-fastpath-regression.md` **2/2 PASS**，用于验证当前 Fast Path，而不是宣称重新执行完整 Stage 7。
+
+结论：**Behavior Static Gate = PASS（traceability restored）**；当前高频 Fast Path fresh E2E = **PASS for the two targeted regression cases**。
+
 ## Simplification Pass 2 — Targeted Contract Review（2026-08-13）
 
 本轮只修改 Report / Preference 文档并新增 SPECIFIC_RISK Fast Path，不新增产品能力，因此采用**受影响范围回归**，不把“文件能 parse”冒充完整模型回归。

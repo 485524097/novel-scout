@@ -104,8 +104,8 @@ SKILL.md 的 Reference Loading 只要求按任务读取相关 reference；宿主
 1. Stage 0~7 的开发与真实 Web 基线已经完成；
 2. 当前 V1 RC 进入 **Runtime Freeze / User Experience Trial**，不再凭理论场景继续扩规则；
 3. 真实使用发现 Bug / UX 问题时，只修改必要规则，并重跑**受影响的回归案例**；只有改动涉及搜索、Evidence 或核心研究流程时才需要补真实 Web 回归；
-4. 用户决定正式发布时，再执行最终 Release Checklist / CHECKPOINT-8 人工批准；
-5. 人工批准后才允许 git commit / GitHub / tag / Release，开发流程不得自动发布。
+4. 当前源码已经进入 Git 仓库并推送到 GitHub；这表示“代码已公开”，**不等于正式版本已 Release**；
+5. 用户决定正式版本发布时，再执行最终 Release Checklist / CHECKPOINT-8 人工批准；未经人工批准不得创建版本 tag 或 GitHub Release。
 
 ## 13. Known Pending（V1 发布时已知遗留）
 
